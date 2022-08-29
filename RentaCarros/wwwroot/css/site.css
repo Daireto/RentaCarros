@@ -1,0 +1,55 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+}
+
+header {
+    height: 60px;
+}
+
+    header .navbar {
+        height: 100%;
+    }
+
+#main-container {
+    padding: 20px 0;
+    min-height: calc(100vh - 90px);
+}
+
+footer {
+    height: 30px;
+}
+
+#footer-container {
+    height: 100%;
+}
+
+.toast {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.toast-body {
+    flex-grow: 1;
+}
+
+.toast-body ul li {
+    list-style: none;
+}
+
+.form-control.input-validation-error, .form-control.input-validation-error:focus {
+    border-color: #A51D2A;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(165 29 42 / 25%);
+}
