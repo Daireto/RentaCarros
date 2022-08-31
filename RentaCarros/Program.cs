@@ -33,6 +33,7 @@ builder.Services.ConfigureApplicationCookie(options => {
 	options.LoginPath = "/Account/NotAuthorized";
 	options.AccessDeniedPath = "/Account/NotAuthorized";
 });
+builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
@@ -42,6 +43,17 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddFlashMessage();
 
 var app = builder.Build();
+
+SeedData();
+void SeedData()
+{
+    IServiceScopeFactory scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using (IServiceScope scope = scopedFactory.CreateScope())
+    {
+        SeedDb service = scope.ServiceProvider.GetService<SeedDb>();
+        service.SeedAsync().Wait();
+    }
+}
 
 if (!app.Environment.IsDevelopment())
 {

@@ -41,7 +41,7 @@ namespace RentaCarros.Models
 
         [Display(Name = "Licencia de Conducción")]
         [MaxLength(20, ErrorMessage = "La licencia de conducción debe tener máximo {1} caractéres")]
-        [MinLength(6, ErrorMessage = "La licencia de conducción debe tener mínimo {1} caractéres")]
+        [MinLength(8, ErrorMessage = "La licencia de conducción debe tener mínimo {1} caractéres")]
         [Required(ErrorMessage = "Debes ingresar una licencia de conducción")]
         public string License { get; set; }
     }

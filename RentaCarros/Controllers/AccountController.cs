@@ -115,13 +115,12 @@ namespace RentaCarros.Controllers
                     },
                     protocol: HttpContext.Request.Scheme);
 
-                string body = "<style>body{text-align:center;font-family:Verdana,Arial;}</style>" +
-                    $"<h1>Soporte RentaCar</h1>" +
-                    $"<h3>Estás a un solo paso de ser parte de nuestra comunidad</h3>" +
-                    $"<h4>Sólo debes hacer click en el siguiente botón para activar tu cuenta</h4>" +
-                    $"<br/>" +
-                    $"<a style=\"padding:15px;background-color:#f1b00e;text-decoration:none;color:black;border: 5px solid #000;border-radius:10px;\" href=\"{tokenLink}\">Activar cuenta</a>";
-                //TODO: Change background-color of the message activation link
+                string body = "<h1>Soporte AVE Auto Rentals</h1>" +
+                    "<h3>Estás a un solo paso de ser parte de nuestra comunidad</h3>" +
+                    "<h4>Sólo debes hacer click en el siguiente botón para activar tu cuenta</h4>" +
+                    "<br />" +
+                    $"<a style=\"padding:15px;background-color:darkgreen;text-decoration:none;color:white;border:5pxsolidwhite;border-radius:10px;\" href=\"{tokenLink}\">Activar cuenta</a>";
+
                 Response response = _mailHelper.SendMail(
                     user.FullName,
                     model.UserName,
@@ -167,9 +166,14 @@ namespace RentaCarros.Controllers
             return RedirectToAction(nameof(SetPassword), new { UserId });
         }
 
-        [NoDirectAccess]
+        //[NoDirectAccess]
         public IActionResult SetPassword(string UserId)
         {
+            if (UserId == null)
+            {
+                return NotFound();
+            }
+
             SetPasswordViewModel model = new()
             {
                 UserId = UserId,

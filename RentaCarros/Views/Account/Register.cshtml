@@ -24,50 +24,50 @@
 <flash dismissable="true" />
 
 <form asp-action="Register" id="form">
-    <div asp-validation-summary="All" id="validation-summary-container"></div>
     <div class="row mb-3">
-        <div class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body text-white">
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 mt-2" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+        <div class="col-4 offset-4 text-center">
+            <h3 class="h3 mb-1">Formulario de Registro</h3>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-6 offset-3">
+            <partial name="_Toast" />
         </div>
     </div>
     <div class="row mb-3">
         <div class="col">
             <label asp-for="Document" class="form-label"></label>
-            <input asp-for="Document" class="form-control" autocomplete="off" />
+            <input asp-for="Document" class="form-control border-2 border-2" required autocomplete="off" />
         </div>
         <div class="col">
             <label asp-for="DocumentType" class="form-label"></label>
-            <select asp-for="DocumentType" asp-items="@DocumentTypes" class="form-select"></select>
+            <select asp-for="DocumentType" asp-items="@DocumentTypes" class="form-select border-2"></select>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col">
             <label asp-for="FirstName" class="form-label"></label>
-            <input asp-for="FirstName" class="form-control" autocomplete="off" />
+            <input asp-for="FirstName" class="form-control border-2" required autocomplete="off" />
         </div>
         <div class="col">
             <label asp-for="LastName" class="form-label"></label>
-            <input asp-for="LastName" class="form-control" autocomplete="off" />
+            <input asp-for="LastName" class="form-control border-2" required autocomplete="off" />
         </div>
     </div>
     <div class="row mb-3">
         <div class="col">
             <label asp-for="PhoneNumber" class="form-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+            <input asp-for="PhoneNumber" class="form-control border-2" required autocomplete="off" />
         </div>
         <div class="col">
             <label asp-for="UserName" class="form-label"></label>
-            <input asp-for="UserName" class="form-control" autocomplete="off" />
+            <input asp-for="UserName" class="form-control border-2" required autocomplete="off" />
         </div>
     </div>
     <div class="row mb-3">
         <div class="col">
             <label asp-for="License" class="form-label"></label>
-            <input asp-for="License" class="form-control" autocomplete="off" />
+            <input asp-for="License" class="form-control border-2" required autocomplete="off" />
         </div>
         <div class="col d-flex justify-content-center align-items-end gap-3">
             <input type="submit" id="submit" class="btn btn-success" value="Registrar" />
@@ -80,16 +80,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        $(document).ready(function () {
-            $('#form').submit(function () {
-                if ($('#validation-summary-container').html()) {
-                    $('.toast-body').html($('#validation-summary-container').html());
-                    $('#validation-summary-container').hide();
-                    $('.toast').toast('show');
-                }
-            });
-        });
-    </script>
-
     }
