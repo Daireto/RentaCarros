@@ -34,7 +34,8 @@ namespace RentaCarros.Helpers
                 LastName = model.LastName,
                 Document = model.Document,
                 DocumentType = model.DocumentType,
-                License = model.License,
+                LicenseFrontImageId = model.LicenseFrontImageId,
+                LicenseBackImageId = model.LicenseBackImageId,
             };
             IdentityResult result = await _userManager.CreateAsync(user);
             if (result != IdentityResult.Success)

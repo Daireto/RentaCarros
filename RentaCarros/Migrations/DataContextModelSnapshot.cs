@@ -195,10 +195,11 @@ namespace RentaCarros.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("License")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<Guid>("LicenseBackImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LicenseFrontImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

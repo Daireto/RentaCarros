@@ -1,4 +1,5 @@
-﻿using RentaCarros.Enums;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RentaCarros.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentaCarros.Models
@@ -30,19 +31,28 @@ namespace RentaCarros.Models
         [Required(ErrorMessage = "Debes ingresar un apellido")]
         public string LastName { get; set; }
 
-        [Display(Name = "Número de Documento")]
+        [Display(Name = "Número de documento")]
         [MaxLength(20, ErrorMessage = "El número de documento debe tener máximo {1} caractéres")]
         [MinLength(6, ErrorMessage = "El número de documento debe tener mínimo {1} caractéres")]
         [Required(ErrorMessage = "Debes ingresar un número de documento")]
         public string Document { get; set; }
 
-        [Display(Name = "Tipo de Documento")]
+        [Display(Name = "Tipo de documento")]
+        [Required(ErrorMessage = "Debes seleccionar el tipo de documento")]
         public DocumentType DocumentType { get; set; }
 
-        [Display(Name = "Licencia de Conducción")]
-        [MaxLength(20, ErrorMessage = "La licencia de conducción debe tener máximo {1} caractéres")]
-        [MinLength(8, ErrorMessage = "La licencia de conducción debe tener mínimo {1} caractéres")]
-        [Required(ErrorMessage = "Debes ingresar una licencia de conducción")]
-        public string License { get; set; }
+        public IEnumerable<SelectListItem> DocumentTypes { get; set; }
+
+        public Guid LicenseFrontImageId { get; set; }
+
+        public Guid LicenseBackImageId { get; set; }
+
+        [Display(Name = "Foto frontal de la licencia")]
+        [Required(ErrorMessage = "Debes subir una foto de la parte frontal de la licencia")]
+        public IFormFile LicenseFrontImageFile { get; set; }
+
+        [Display(Name = "Foto trasera de la licencia")]
+        [Required(ErrorMessage = "Debes subir una foto de la parte trasera de la licencia")]
+        public IFormFile LicenseBackImageFile { get; set; }
     }
 }

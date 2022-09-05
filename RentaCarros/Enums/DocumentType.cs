@@ -4,6 +4,7 @@
     {
         CC,
         CE,
-        PAP
+        PAP,
+        TI,
     }
 }

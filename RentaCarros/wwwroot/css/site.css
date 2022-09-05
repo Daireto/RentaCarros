@@ -35,21 +35,16 @@ footer {
     height: 100%;
 }
 
-.toast {
+flash div.alert {
     margin: 0 auto;
-    width: 80%;
-}
-
-.toast-body {
-    flex-grow: 1;
-}
-
-.toast-body ul li {
-    list-style: none;
+    width: max-content;
 }
 
 .form-control.input-validation-error, .form-control.input-validation-error:focus {
     border-color: #A51D2A;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgb(165 29 42 / 25%);
+}
+
+.validation-feedback {
 }

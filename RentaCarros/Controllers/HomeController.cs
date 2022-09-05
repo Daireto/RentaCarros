@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.EntityFrameworkCore;
 using RentaCarros.Common;
 using RentaCarros.Data;
 using RentaCarros.Data.Entities;
@@ -12,11 +13,13 @@ namespace RentaCarros.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DataContext _context;
         private readonly IMailHelper _mailHelper;
         private readonly IFlashMessage _flashMessage;
 
-        public HomeController(IMailHelper mailHelper, IFlashMessage flashMessage)
+        public HomeController(DataContext context, IMailHelper mailHelper, IFlashMessage flashMessage)
         {
+            _context = context;
             _mailHelper = mailHelper;
             _flashMessage = flashMessage;
         }
@@ -31,7 +34,13 @@ namespace RentaCarros.Controllers
             return View();
         }
 
-        public IActionResult CheckSendMail()
+        public async Task<IActionResult> Users() //TODO: Delete this view
+        {
+            var users = await _context.Users.ToListAsync(); ;
+            return View(users);
+        }
+
+        public IActionResult CheckSendMail() //TODO: Delete this view
         {
             string body = "<h1>Soporte AVE Auto Rentals</h1>" +
                     "<h3>Estás a un solo paso de ser parte de nuestra comunidad</h3>" +
@@ -64,7 +73,7 @@ namespace RentaCarros.Controllers
         }
 
         [Route("error/404")]
-        public IActionResult Error404()
+        public IActionResult Error404() //TODO: Edit the 404 view
         {
             return View();
         }

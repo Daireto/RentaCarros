@@ -9,26 +9,25 @@ namespace RentaCarros.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        public SeedDb(DataContext context, IUserHelper userHelper)
+        private readonly IBlobHelper _blobHelper;
+        public SeedDb(DataContext context, IUserHelper userHelper, IBlobHelper blobHelper)
         {
             _context = context;
             _userHelper = userHelper;
+            _blobHelper = blobHelper;
         }
         public async Task SeedAsync()
         {
-            await _context.Database.EnsureCreatedAsync();
-            await CheckUsersAsync("1000001", DocumentType.CC, "Lindsey", "Morgan", "lindsey@yopmail.com", "311 456 1885", "52109246");
-            await CheckUsersAsync("1000002", DocumentType.CC, "Marie", "Avgeropoulos", "marie@yopmail.com", "311 456 9696", "35843597");
-            await CheckUsersAsync("1000003", DocumentType.CC, "Victoria", "Justice", "victoria@yopmail.com", "311 456 6418", "35384407");
-            await CheckUsersAsync("1000004", DocumentType.CE, "Curtis", "Jackson", "curtis@yopmail.com", "311 456 7589", "76603064");
-            await CheckUsersAsync("1000005", DocumentType.CE, "Dwayne", "Johnson", "dwayne@yopmail.com", "311 456 2498", "13262459");
-            await CheckUsersAsync("1000006", DocumentType.PAP, "Millie", "Brown", "millie@yopmail.com", "311 456 7892", "47955224");
-            await CheckUsersAsync("1000007", DocumentType.PAP, "Brett", "Gray", "brett@yopmail.com", "311 456 6498", "98537659");
-            await CheckUsersAsync("1000008", DocumentType.PAP, "Brian", "Henry", "brian@yopmail.com", "311 456 3794", "77915136");
-            await CheckUsersAsync("1000009", DocumentType.CE, "Andy", "Allo", "andy@yopmail.com", "311 456 8002", "03516559");
-            await CheckUsersAsync("1000010", DocumentType.CE, "Vanessa", "Hudgens", "vanessa@yopmail.com", "311 456 2841", "76330018");
-            await CheckUsersAsync("1000011", DocumentType.PAP, "Rihanna", "Fenty", "rihanna@yopmail.com", "311 456 7945", "15573185");
-            await CheckUsersAsync("1000012", DocumentType.PAP, "Lamar", "Hill", "lamar@yopmail.com", "311 456 3628", "84986246");
+            bool result = await _context.Database.EnsureCreatedAsync();
+            if (result == true)
+            {
+                await _blobHelper.DeleteBlobsAsync("users");
+            }
+
+            await CheckUsersAsync("1000001", DocumentType.CC, "Lindsey", "Morgan", "lindsey@yopmail.com", "311 456 1885", "Lindsey_Front.png", "Lindsey_Back.png");
+            await CheckUsersAsync("1000002", DocumentType.CE, "Lamar", "Hill", "lamar@yopmail.com", "311 456 7589", "Lamar_Front.png", "Lamar_Back.png");
+            await CheckUsersAsync("1000003", DocumentType.PAP, "Vanessa", "Hudgens", "vanessa@yopmail.com", "311 456 8002", "Vanessa_Front.png", "Vanessa_Back.png");
+            await CheckUsersAsync("1000004", DocumentType.TI, "Brett", "Gray", "brett@yopmail.com", "311 456 7892", "Brett_Front.png", "Brett_Back.png");
         }
 
         private async Task<User> CheckUsersAsync(
@@ -38,11 +37,16 @@ namespace RentaCarros.Data
             string lastName,
             string email,
             string phone,
-            string license)
+            string licenseFrontImage,
+            string licenseBackImage
+        )
         {
             User user = await _userHelper.GetUserAsync(email);
             if (user == null)
             {
+                Guid licenseFrontImageId = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{licenseFrontImage}", "users");
+                Guid licenseBackImageId = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{licenseBackImage}", "users");
+
                 user = new User
                 {
                     FirstName = firstName,
@@ -52,7 +56,8 @@ namespace RentaCarros.Data
                     PhoneNumber = phone,
                     Document = document,
                     DocumentType = documentType,
-                    License = license,
+                    LicenseFrontImageId = licenseFrontImageId,
+                    LicenseBackImageId = licenseBackImageId,
                     IsActive = true,
                 };
                 await _userHelper.AddUserAsync(user, firstName.ToLower() + "123456");

@@ -2,6 +2,7 @@
 using RentaCarros.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RentaCarros.Data.Entities
 {
@@ -22,14 +23,20 @@ namespace RentaCarros.Data.Entities
         [Required()]
         public DocumentType DocumentType { get; set; }
 
-        [StringLength(20, MinimumLength = 8)]
         [Required()]
-        public string License { get; set; }
+        public Guid LicenseFrontImageId { get; set; }
+
+        [Required()]
+        public Guid LicenseBackImageId { get; set; }
 
         public bool IsActive { get; set; }
 
         // Read only fields
 
         public string FullName => $"{FirstName} {LastName}";
+
+        //TODO: Pending to put the correct paths
+        public string LicenseFrontImageFullPath => $"https://rentacarros.blob.core.windows.net/users/{LicenseFrontImageId}";
+        public string LicenseBackImageFullPath => $"https://rentacarros.blob.core.windows.net/users/{LicenseBackImageId}";
     }
 }

@@ -12,7 +12,7 @@ using RentaCarros.Data;
 namespace RentaCarros.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220831020221_InitialDb")]
+    [Migration("20220905010839_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,10 +197,11 @@ namespace RentaCarros.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("License")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<Guid>("LicenseBackImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LicenseFrontImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

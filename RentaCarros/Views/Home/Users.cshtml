@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RentaCarros.Data.Entities.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Documento</th>
+            <th>Tipo de documento</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            var documentType = "";
+            if (user.DocumentType.ToString() == "CC")
+            {
+                documentType = "Cédula de Ciudadanía";
+            }
+            else if (user.DocumentType.ToString() == "CE")
+            {
+                documentType = "Cédula de Extranjería";
+            }
+            else if (user.DocumentType.ToString() == "PAP")
+            {
+                documentType = "Pasaporte";
+            }
+            else if (user.DocumentType.ToString() == "TI")
+            {
+                documentType = "Tarjeta de Identidad";
+            }
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Document</td>
+                <td>@documentType</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.PhoneNumber</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <img src="@user.LicenseFrontImageFullPath" alt="Foto frontal de la licencia" />
+                </td>
+                <td colspan="3" style="padding-bottom: 40px; text-align: center;">
+                    <img src="@user.LicenseBackImageFullPath" alt="Foto trasera de la licencia" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

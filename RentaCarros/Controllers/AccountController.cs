@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentaCarros.Common;
-using RentaCarros.Controllers.Attributes;
 using RentaCarros.Data;
 using RentaCarros.Data.Entities;
 using RentaCarros.Helpers;
@@ -15,17 +14,28 @@ namespace RentaCarros.Controllers
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly IBlobHelper _blobHelper;
+        private readonly ICombosHelper _combosHelper;
         private readonly IFlashMessage _flashMessage;
 
-        public AccountController(DataContext context, IUserHelper userHelper, IMailHelper mailHelper, IFlashMessage flashMessage)
+        public AccountController(
+            DataContext context,
+            IUserHelper userHelper,
+            IMailHelper mailHelper,
+            IBlobHelper blobHelper,
+            ICombosHelper combosHelper,
+            IFlashMessage flashMessage
+        )
         {
             _context = context;
             _userHelper = userHelper;
             _mailHelper = mailHelper;
+            _blobHelper = blobHelper;
+            _combosHelper = combosHelper;
             _flashMessage = flashMessage;
         }
 
-        public IActionResult NotAuthorized()
+        public IActionResult NotAuthorized() //TODO: Edit the not authorized view
         {
             return View();
         }
@@ -53,15 +63,15 @@ namespace RentaCarros.Controllers
                 }
                 else if (result.IsLockedOut)
                 {
-                    _flashMessage.Danger("Ha alcanzado el número máximo de intentos, intente de nuevo en 2 minutos", "Error:");
+                    _flashMessage.Warning("Ha alcanzado el número máximo de intentos, intente de nuevo en 2 minutos", "Advertencia:");
                 }
                 else if (result.IsNotAllowed)
                 {
-                    _flashMessage.Danger("Este email no está verificado, siga los pasos enviados al correo", "Error:");
+                    _flashMessage.Warning("Este email no está verificado, siga los pasos enviados al correo", "Advertencia:");
                 }
                 else
                 {
-                    _flashMessage.Danger("Email o contraseña incorrectos", "Error:");
+                    _flashMessage.Warning("Email o contraseña incorrectos", "Advertencia:");
                 }
             }
 
@@ -81,7 +91,12 @@ namespace RentaCarros.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(new AddUserViewModel());
+            AddUserViewModel model = new()
+            {
+                DocumentTypes = _combosHelper.GetComboDocumentTypes(),
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -90,19 +105,42 @@ namespace RentaCarros.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.LicenseFrontImageId = Guid.Empty;
+                model.LicenseBackImageId = Guid.Empty;
+
+                if (model.LicenseFrontImageFile == null)
+                {
+                    _flashMessage.Warning("Debes subir una foto de la parte frontal de la licencia", "Advertencia:");
+                    return View(model);
+                }
+
+                if (model.LicenseBackImageFile == null)
+                {
+                    _flashMessage.Warning("Debes subir una foto de la parte trasera de la licencia", "Advertencia:");
+                    return View(model);
+                }
+
                 User userDocumentExist = await _userHelper.GetUserAsync(model);
                 if (userDocumentExist != null)
                 {
-                    _flashMessage.Danger("Ya existe un usuario con este documento, por favor ingrese otro", "Error:");
+                    _flashMessage.Warning("Ya existe un usuario con este documento, por favor ingrese otro", "Advertencia:");
                     return View(model);
                 }
 
                 User user = await _userHelper.AddUserAsync(model);
                 if (user == null)
                 {
-                    _flashMessage.Danger("Este correo ya está en uso, por favor ingrese otro", "Error:");
+                    _flashMessage.Warning("Este correo ya está en uso, por favor ingrese otro", "Advertencia:");
                     return View(model);
                 }
+
+                Guid licenseFrontImageId = await _blobHelper.UploadBlobAsync(model.LicenseFrontImageFile, "users");
+                Guid licenseBackImageId = await _blobHelper.UploadBlobAsync(model.LicenseBackImageFile, "users");
+
+                user.LicenseFrontImageId = licenseFrontImageId;
+                user.LicenseBackImageId = licenseBackImageId;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
 
                 string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 string tokenLink = Url.Action(
@@ -129,7 +167,7 @@ namespace RentaCarros.Controllers
 
                 if (response.IsSuccess)
                 {
-                    _flashMessage.Confirmation("Sigue las instrucciones enviadas a tu correo", "Para continuar debes activar tu cuenta:");
+                    _flashMessage.Confirmation("Sigue las instrucciones enviadas a tu correo para activar tu cuenta", "Operación exitosa:");
                 }
                 else
                 {
@@ -140,8 +178,6 @@ namespace RentaCarros.Controllers
 
             return View(model);
         }
-
-        //TODO: Implement resend activation token method
 
         public async Task<IActionResult> ActivateAccount(string UserId, string Token)
         {
@@ -162,11 +198,9 @@ namespace RentaCarros.Controllers
                 return NotFound();
             }
 
-            _flashMessage.Confirmation("Introduce una contraseña para tu cuenta", "Asignación de contraseña:");
             return RedirectToAction(nameof(SetPassword), new { UserId });
         }
 
-        //[NoDirectAccess]
         public IActionResult SetPassword(string UserId)
         {
             if (UserId == null)
@@ -201,11 +235,12 @@ namespace RentaCarros.Controllers
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                     await _userHelper.LoginAsync(user);
+                    _flashMessage.Confirmation("Cuenta activada correctamente", "Operación exitosa:");
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    _flashMessage.Danger("No se pudo asignar la contraseña", "Error:");
+                    _flashMessage.Warning("No se pudo asignar la contraseña", "Advertencia:");
                     return View(model);
                 }
             }
