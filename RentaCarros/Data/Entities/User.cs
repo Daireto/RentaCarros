@@ -31,12 +31,15 @@ namespace RentaCarros.Data.Entities
 
         public bool IsActive { get; set; }
 
+        public ICollection<Booking> Booking { get; set; }
+
         // Read only fields
 
         public string FullName => $"{FirstName} {LastName}";
 
         //TODO: Pending to put the correct paths
         public string LicenseFrontImageFullPath => $"https://rentacarros.blob.core.windows.net/users/{LicenseFrontImageId}";
+
         public string LicenseBackImageFullPath => $"https://rentacarros.blob.core.windows.net/users/{LicenseBackImageId}";
     }
 }

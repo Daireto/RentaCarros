@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.EntityFrameworkCore;
-using RentaCarros.Common;
 using RentaCarros.Data;
 using RentaCarros.Data.Entities;
-using RentaCarros.Helpers;
-using RentaCarros.Models;
-using System.Diagnostics;
-using Vereyon.Web;
 
 namespace RentaCarros.Controllers
 {

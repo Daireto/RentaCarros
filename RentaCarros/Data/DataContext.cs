@@ -8,10 +8,11 @@ namespace RentaCarros.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Entidad>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Vehicle>().HasIndex(v => v.Plate).IsUnique();
         }
     }
 }

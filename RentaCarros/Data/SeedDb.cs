@@ -31,6 +31,8 @@ namespace RentaCarros.Data
             await CheckUsersAsync("1000003", DocumentType.PAP, "Vanessa", "Hudgens", "vanessa@yopmail.com", "311 456 8002", "Vanessa_Front.png", "Vanessa_Back.png");
             await CheckUsersAsync("1000004", DocumentType.TI, "Brett", "Gray", "brett@yopmail.com", "311 456 7892", "Brett_Front.png", "Brett_Back.png");
         }
+        
+        // TODO: Create vehicles
 
         private async Task<User> CheckUsersAsync(
             string document,

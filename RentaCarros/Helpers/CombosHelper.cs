@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using RentaCarros.Data;
 using RentaCarros.Enums;
 using System.Xml.Linq;
 
@@ -6,10 +8,12 @@ namespace RentaCarros.Helpers
 {
     public class CombosHelper : ICombosHelper
     {
+        public readonly DataContext _context;
         public IHtmlHelper _htmlHelper { get; set; }
 
-        public CombosHelper(IHtmlHelper htmlHelper)
+        public CombosHelper(DataContext context, IHtmlHelper htmlHelper)
         {
+            _context = context;
             _htmlHelper = htmlHelper;
         }
 
@@ -36,6 +40,26 @@ namespace RentaCarros.Helpers
                 }
             }
             return documentTypes;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboVehiclesAsync(int bookingId)
+        {
+            List<SelectListItem> list = await _context.Vehicles
+                .Select(v => new SelectListItem
+                {
+                    Text = $"{v.Maker} {v.Model} {v.Plate}",
+                    Value = $"{v.Id}"
+                })
+                .OrderBy(v => v.Text)
+                .ToListAsync();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "Seleccione un vehículo",
+                Value = "0"
+            });
+
+            return list;
         }
     }
 }

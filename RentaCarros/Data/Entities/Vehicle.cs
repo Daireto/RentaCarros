@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RentaCarros.Enums;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RentaCarros.Data.Entities
 {
     public class Vehicle 
     {
+        public int Id { get; set; }
+
+        [StringLength(6)]
+        [Required()]
+        public string Plate { get; set; }
+
         [StringLength(50, MinimumLength = 2)]
         [Required()]
         public string Model { get; set; }
@@ -23,18 +25,19 @@ namespace RentaCarros.Data.Entities
         public int Capacity { get; set; }
 
         [Required()]
-        public int NumberDoors { get; set; }
+        public int DoorNumber { get; set; }
 
         [StringLength(50, MinimumLength = 2)]
         [Required()]
-        public string Mark { get; set; }
+        public string Maker { get; set; }
 
         [StringLength(50, MinimumLength = 2)]
         [Required()]
         public string Color { get; set; }
 
         [Required()]
-        public int ValueDay { get; set; }
+        public int DayValue { get; set; }
 
+        public ICollection<Booking> Booking { get; set; }
     }
 }
