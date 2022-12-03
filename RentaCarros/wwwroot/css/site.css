@@ -2,6 +2,11 @@ html {
     font-size: 14px;
 }
 
+body {
+    background-image: url('../images/fondo1.jpg');
+    background-size: contain;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -38,6 +43,14 @@ footer {
 flash div.alert {
     margin: 0 auto;
     width: max-content;
+}
+
+#form{
+    background-color: white;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0;
+    border-radius: 10px;
 }
 
 .form-control.input-validation-error, .form-control.input-validation-error:focus {
