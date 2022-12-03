@@ -10,12 +10,14 @@ namespace RentaCarros.Data
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly IBlobHelper _blobHelper;
+
         public SeedDb(DataContext context, IUserHelper userHelper, IBlobHelper blobHelper)
         {
             _context = context;
             _userHelper = userHelper;
             _blobHelper = blobHelper;
         }
+
         public async Task SeedAsync()
         {
             bool result = await _context.Database.EnsureCreatedAsync();

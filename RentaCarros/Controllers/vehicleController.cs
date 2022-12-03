@@ -12,18 +12,17 @@ using Vereyon.Web;
 namespace RentaCarros.Controllers
 {
 
-    public class vehicleController : Controller       
+    public class VehicleController : Controller       
     {
-
         private readonly DataContext _context;
-        public vehicleController(DataContext context) { 
-            _context=context;
+
+        public VehicleController(DataContext context) { 
+            _context = context;
         }
 
-        public async Task<List<Vehicle>>ListVehicles()
+        public async Task<ICollection<Vehicle>> ListVehicles()
         {
-            return await _context.Vehicles
-                .ToListAsync();
+            return await _context.Vehicles.ToListAsync();
         }
     }
 }
