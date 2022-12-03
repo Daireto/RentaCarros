@@ -7,7 +7,7 @@ namespace RentaCarros.Data
     public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        //public DbSet<Entidad> Entidad { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
