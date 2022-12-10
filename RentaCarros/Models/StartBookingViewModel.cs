@@ -24,6 +24,7 @@ namespace RentaCarros.Models
         [Column(TypeName = "bigint")]
         public TimeSpan Endtime { get; set; }
 
+        [Display(Name = "Lugar de retiro")]
         [StringLength(50, MinimumLength = 2)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string DeliveryPlace { get; set; }
