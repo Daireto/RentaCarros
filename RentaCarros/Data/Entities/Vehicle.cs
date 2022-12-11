@@ -38,6 +38,14 @@ namespace RentaCarros.Data.Entities
         [Required()]
         public int DayValue { get; set; }
 
+        [Required()]
+        public Guid Image { get; set; }
+
         public ICollection<Booking> Booking { get; set; }
+
+        // Read only fields
+
+        public string ImageFullPath => $"https://rentacarros.blob.core.windows.net/vehicles/{Image}";
+
     }
 }

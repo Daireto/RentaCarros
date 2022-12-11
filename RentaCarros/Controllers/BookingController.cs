@@ -5,9 +5,11 @@ using RentaCarros.Data.Entities;
 using RentaCarros.Helpers;
 using Vereyon.Web;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentaCarros.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly DataContext _context;
@@ -23,12 +25,24 @@ namespace RentaCarros.Controllers
             _flashMessage = flashMessage;
         }
 
-        public IActionResult ShowForm(int? vehicleId)
+        public async Task<IActionResult> ShowForm(int? vehicleId)
         {
             StartBookingViewModel model = new()
             {
+                EndDate = new DateTime(0001, 01, 01),
                 VehicleId = vehicleId ?? null,
             };
+
+            if (vehicleId.HasValue)
+            {
+                Booking booking = await _context.Bookings
+                    .Include(b => b.Vehicle)
+                    .Where(b => b.Vehicle.Id == vehicleId.Value)
+                    .OrderBy(b => b.EndDate)
+                    .LastOrDefaultAsync();
+
+                model.EndDate = booking != null ? booking.EndDate : model.EndDate;
+            }
 
             return View(model);
         }
@@ -82,6 +96,8 @@ namespace RentaCarros.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ShowVehicles(LinkVehicleViewModel model)
         {
+            model.Vehicles = await _combosHelper.GetComboVehiclesAsync(model.BookingId);
+
             if (ModelState.IsValid)
             {
                 return await LinkVehicle(model);
@@ -136,10 +152,11 @@ namespace RentaCarros.Controllers
             {
                 if (!model.Confirm)
                 {
-                    _flashMessage.Warning("Debe aceptar los términos y condiciones para realizar la reserva", "Advertencia:");
+                    _flashMessage.Warning("Debes aceptar los términos y condiciones para realizar la reserva", "Advertencia:");
                     model.Booking = await _context.Bookings
                         .Include(b => b.Vehicle)
                         .FirstOrDefaultAsync(b => b.Id == model.BookingId);
+
                     return View(model);
                 }
 

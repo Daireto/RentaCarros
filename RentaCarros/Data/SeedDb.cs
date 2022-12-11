@@ -78,53 +78,57 @@ namespace RentaCarros.Data
                 Vehicle vehicle1 = new()
                 {
                     Plate = "KHL-458",
-                    Model = "2040",
-                    Line = "Borojo",
-                    Mileage = 13000,
-                    Capacity = 5,
-                    DoorNumber = 4,
+                    Model = "2008",
+                    Line = "Gina",
+                    Mileage = 120000,
+                    Capacity = 2,
+                    DoorNumber = 2,
                     Maker = "BMW",
-                    Color = "Azul",
-                    DayValue = 550000
-                };
+                    Color = "Gris",
+                    DayValue = 4000000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\KHL-458.jpg", "vehicles"),
+            };
 
                 Vehicle vehicle2 = new()
                 {
                     Plate = "USY-589",
-                    Model = "2100",
-                    Line = "Lo último en guaracha",
-                    Mileage = 20000,
-                    Capacity = 20,
-                    DoorNumber = 5,
-                    Maker = "Toyota",
-                    Color = "Rosado",
-                    DayValue = 1000000
+                    Model = "2016",
+                    Line = "Vision Next",
+                    Mileage = 150000,
+                    Capacity = 4,
+                    DoorNumber = 2,
+                    Maker = "BMW",
+                    Color = "Marrón",
+                    DayValue = 3500000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\USY-589.jpg", "vehicles"),
                 };
 
                 Vehicle vehicle3 = new()
                 {
                     Plate = "ENG-495",
-                    Model = "2075",
-                    Line = "Gle 450 Suv",
-                    Mileage = 14000,
-                    Capacity = 7,
-                    DoorNumber = 4,
+                    Model = "2010",
+                    Line = "Biome",
+                    Mileage = 180000,
+                    Capacity = 2,
+                    DoorNumber = 2,
                     Maker = "Mercedes Benz",
-                    Color = "Negro",
-                    DayValue = 600000
+                    Color = "Blanco",
+                    DayValue = 6000000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\ENG-495.jpg", "vehicles"),
                 };
 
                 Vehicle vehicle4 = new()
                 {
                     Plate = "UTJ-496",
-                    Model = "2022",
-                    Line = "CX-5",
-                    Mileage = 12000,
+                    Model = "2015",
+                    Line = "Teatro for Dayz",
+                    Mileage = 110000,
                     Capacity = 5,
                     DoorNumber = 4,
-                    Maker = "Mazda",
-                    Color = "Blanco",
-                    DayValue = 350000
+                    Maker = "Nissan",
+                    Color = "Celeste",
+                    DayValue = 2400000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\UTJ-496.jpg", "vehicles"),
                 };
 
                 _context.Vehicles.Add(vehicle1);

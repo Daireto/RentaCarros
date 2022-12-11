@@ -10,8 +10,8 @@ namespace RentaCarros.Models
         [Required]
         public int BookingId { get; set; }
 
-        [Display(Name = "Confirmo que he leído y estoy de acuerdo con el contrato, los términos y condiciones")]
-        [Required(ErrorMessage = "Es obligatorio aceptar el contrato, los términos y condiciones")]
+        [Display(Name = "Confirmo que he leído y estoy de acuerdo con los términos y condiciones")]
+        [Required(ErrorMessage = "Debes aceptar los términos y condiciones para realizar la reserva")]
         public bool Confirm { get; set; }
     }
 }

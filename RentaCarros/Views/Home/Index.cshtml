@@ -6,19 +6,21 @@
 
 <flash dismissable="true" />
 
-<div class="text-center">
+<div class="row bg-white rounded p-4">
     @foreach (var vehicle in Model)
     {
-        <div class="card" style="width: 18rem;">
-            @*<img class="card-img-top" src="..." alt="Card image cap">*@
-            <div class="card-body">
-                <h5 class="card-title">@vehicle.Maker @vehicle.Line @vehicle.Model</h5>
-                <p class="card-text">@vehicle.Capacity</p>
-                <p class="card-text">@vehicle.DoorNumber</p>
-                <p class="card-text">@vehicle.Color</p>
-                <p class="card-text">@vehicle.Mileage</p>
-                <p class="card-text">@vehicle.DayValue</p>
-                <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-secondary">Reservar</a>
+        <div class="col">
+            <div class="card border border-dark" style="width: 20rem;">
+                <img class="card-img-top" src="@vehicle.ImageFullPath" alt="@vehicle.Maker @vehicle.Line @vehicle.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@vehicle.Maker @vehicle.Line @vehicle.Model</h5>
+                    <p class="card-text">@vehicle.Capacity</p>
+                    <p class="card-text">@vehicle.DoorNumber</p>
+                    <p class="card-text">@vehicle.Color</p>
+                    <p class="card-text">@vehicle.Mileage</p>
+                    <p class="card-text">@vehicle.DayValue</p>
+                    <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-secondary">Reservar</a>
+                </div>
             </div>
         </div>
     }
