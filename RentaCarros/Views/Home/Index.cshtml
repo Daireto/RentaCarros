@@ -10,6 +10,11 @@
     </div>
     @foreach (var vehicle in Model)
     {
+        double Millas = vehicle.Mileage;
+        string Milla = Millas.ToString("N0");
+        double vlr = vehicle.DayValue;
+        string vlrConv = vlr.ToString("N0");
+
         <div class="col">
             <div class="card border border-dark rounded" style="width: 20rem;">
                 <img class="card-img-top" src="@vehicle.ImageFullPath" alt="@vehicle.Maker @vehicle.Line @vehicle.Model">
@@ -18,23 +23,11 @@
                     <p class="card-text"> Capacidad: @vehicle.Capacity</p>
                     <p class="card-text">Número de puertas: @vehicle.DoorNumber</p>
                     <p class="card-text">Color: @vehicle.Color</p>
-                    <p class="card-text">Kilometraje: formatoNum(@vehicle.Mileage)</p>
-                    <p class="card-text">@vehicle.DayValue</p>
+                    <p class="card-text">Kilometraje: @Milla kms</p>
+                    <p class="card-text">Valor por día: $@vlrConv</p>
                     <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-success">Reservar</a>
                 </div>
             </div>
         </div>
     }
 </div>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script type="text/javascript">
-        function formatoNum(numero) {
-            document
-                .getElementById('salida')
-                .innerHTML = new Intl.NumberFormat('es-CO').format(numero);
-        };
-    </script>
-    }
