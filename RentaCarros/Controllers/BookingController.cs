@@ -102,7 +102,7 @@ namespace RentaCarros.Controllers
             {
                 return await LinkVehicle(model);
             }
-            return View();
+            return View(model);
         }
 
         private async Task<IActionResult> LinkVehicle(LinkVehicleViewModel model)
@@ -175,6 +175,22 @@ namespace RentaCarros.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
+        }
+
+        public async Task<IActionResult> CancelBooking(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FindAsync(bookingId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(booking);
+            await _context.SaveChangesAsync();
+
+            _flashMessage.Confirmation("La reserva ha sido cancelada", "Operación exitosa:");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

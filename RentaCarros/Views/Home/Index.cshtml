@@ -4,13 +4,14 @@
     ViewData["Title"] = "Inicio";
 }
 
-<flash dismissable="true" />
-
 <div class="row bg-white rounded p-4">
+    <div class="col-12">
+        <flash dismissable="true" />
+    </div>
     @foreach (var vehicle in Model)
     {
         <div class="col">
-            <div class="card border border-dark" style="width: 20rem;">
+            <div class="card border border-dark rounded" style="width: 20rem;">
                 <img class="card-img-top" src="@vehicle.ImageFullPath" alt="@vehicle.Maker @vehicle.Line @vehicle.Model">
                 <div class="card-body">
                     <h5 class="card-title">@vehicle.Maker @vehicle.Line @vehicle.Model</h5>
@@ -19,7 +20,7 @@
                     <p class="card-text">@vehicle.Color</p>
                     <p class="card-text">@vehicle.Mileage</p>
                     <p class="card-text">@vehicle.DayValue</p>
-                    <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-secondary">Reservar</a>
+                    <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-success">Reservar</a>
                 </div>
             </div>
         </div>

@@ -36,11 +36,20 @@
         </div>
         <div class="col-4">
             <label asp-for="DeliveryPlace" class="control-label"></label>
-            <input asp-for="DeliveryPlace" class="form-control" />
+            <input type="hidden" asp-for="DeliveryPlace" class="form-control" />
+            <input type="text" class="form-control" id="DeliveryPlaceToggle" />
             <span asp-validation-for="DeliveryPlace" class="text-danger"></span>
         </div>
-        <div class="col-4 d-flex justify-content-center align-items-end gap-3">
-            <input type="submit" value="Iniciar reserva" class="btn btn-primary" />
+        <div class="col-4 align-self-start">
+            <div class="form-check pt-4">
+                <input type="checkbox" class="form-check-input" id="setAgencyAsDP" />
+                <label class="form-check-label">Recoger en la agencia</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col d-flex justify-content-center align-items-end">
+            <button class="btn btn-success" id="submitForm">Iniciar reserva</button>
         </div>
     </div>
 </form>
@@ -81,6 +90,23 @@
                 endDate.setDate(startDate.getDate() + 2);
                 $("#EndDate").val(endDate.toISOString().split('T')[0]);
                 $("#EndDate").attr("min", endDate.toISOString().split('T')[0]);
+            });
+
+            $("#setAgencyAsDP").change(function () {
+                if (this.checked) {
+                    $("#DeliveryPlaceToggle").val("Agencia");
+                    $("#DeliveryPlace").val($("#DeliveryPlaceToggle").val());
+                    $("#DeliveryPlaceToggle").attr("readonly", true);
+                } else {
+                    $("#DeliveryPlaceToggle").val("");
+                    $("#DeliveryPlace").val($("#DeliveryPlaceToggle").val());
+                    $("#DeliveryPlaceToggle").attr("readonly", false);
+                }
+            });
+
+            $("#submitForm").click(function () {
+                $("#DeliveryPlace").val($("#DeliveryPlaceToggle").val());
+                $("#form").submit();
             });
         });
     </script>

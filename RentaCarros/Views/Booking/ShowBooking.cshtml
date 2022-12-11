@@ -4,10 +4,7 @@
     ViewData["Title"] = "Confirmación de la reserva";
 }
 
-
-<flash dismissable="true" />
-
-<div class="row bg-white">
+<div class="row bg-white p-4 rounded">
     <h3>Detalles de la reserva</h3>
     <hr />
     <table class="table">
@@ -25,8 +22,8 @@
         <tbody>
             <tr>
                 <th scope="row">RSV-@Model.Booking.Id</th>
-                <td>@Model.Booking.StartDate</td>
-                <td>@Model.Booking.EndDate</td>
+                <td>@Model.Booking.StartDate.ToShortDateString()</td>
+                <td>@Model.Booking.EndDate.ToShortDateString()</td>
                 <td>@Model.Booking.StartTime</td>
                 <td>@Model.Booking.Endtime</td>
                 <td>@Model.Booking.DeliveryPlace</td>
@@ -37,7 +34,7 @@
 </div>
 
 <hr />
-<form asp-action="ShowBooking" id="form">
+<form asp-action="ShowBooking" id="form" class="p-4">
     <input type="hidden" asp-for="BookingId" />
     <div class="row mb-1">
         <div class="col-4 offset-4 text-center">
@@ -57,15 +54,16 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-4 offset-4">
+        <div class="col-12 mb-3">
             <div class="form-check">
                 <input asp-for="Confirm" type="checkbox" class="form-check-input" />
                 <label asp-for="Confirm" class="form-check-label"></label>
             </div>
             <span asp-validation-for="Confirm" class="text-warning"></span>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Finalizar reserva" class="btn btn-primary" />
+        <div class="col-12">
+            <input type="submit" value="Confirmar reserva" class="btn btn-success" />
+            <a asp-action="CancelBooking" asp-controller="Booking" asp-route-bookingId="@Model.Booking.Id" class="btn btn-secondary">Confirmar reserva</a>
         </div>
     </div>
 </form>
