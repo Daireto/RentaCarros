@@ -80,7 +80,7 @@ namespace RentaCarros.Data
                     Plate = "KHL-458",
                     Model = "2008",
                     Line = "Gina",
-                    Mileage = 120000,
+                    Mileage = 11000,
                     Capacity = 2,
                     DoorNumber = 2,
                     Maker = "BMW",
@@ -94,7 +94,7 @@ namespace RentaCarros.Data
                     Plate = "USY-589",
                     Model = "2016",
                     Line = "Vision Next",
-                    Mileage = 150000,
+                    Mileage = 15000,
                     Capacity = 4,
                     DoorNumber = 2,
                     Maker = "BMW",
@@ -108,7 +108,7 @@ namespace RentaCarros.Data
                     Plate = "ENG-495",
                     Model = "2010",
                     Line = "Biome",
-                    Mileage = 180000,
+                    Mileage = 18000,
                     Capacity = 2,
                     DoorNumber = 2,
                     Maker = "Mercedes Benz",
@@ -122,7 +122,7 @@ namespace RentaCarros.Data
                     Plate = "UTJ-496",
                     Model = "2015",
                     Line = "Teatro for Dayz",
-                    Mileage = 110000,
+                    Mileage = 11000,
                     Capacity = 5,
                     DoorNumber = 4,
                     Maker = "Nissan",
@@ -131,10 +131,85 @@ namespace RentaCarros.Data
                     Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\UTJ-496.jpg", "vehicles"),
                 };
 
+                Vehicle vehicle5 = new()
+                {
+                    Plate = "KDJ-586",
+                    Model = "2016",
+                    Line = "FFZERO1",
+                    Mileage = 24000,
+                    Capacity = 2,
+                    DoorNumber = 2,
+                    Maker = "Faraday Future",
+                    Color = "Plateado",
+                    DayValue = 8000000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\KDJ-586.jpg", "vehicles"),
+                };
+
+                Vehicle vehicle6 = new()
+                {
+                    Plate = "BSU-835",
+                    Model = "2016",
+                    Line = "Vision 100",
+                    Mileage = 13000,
+                    Capacity = 5,
+                    DoorNumber = 2,
+                    Maker = "Rolls-Royce",
+                    Color = "Celeste",
+                    DayValue = 6400000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\BSU-835.jpg", "vehicles"),
+                };
+
+                Vehicle vehicle7 = new()
+                {
+                    Plate = "LAB-892",
+                    Model = "2015",
+                    Line = "Mission E",
+                    Mileage = 16000,
+                    Capacity = 5,
+                    DoorNumber = 4,
+                    Maker = "Porsche",
+                    Color = "Blanco",
+                    DayValue = 2400000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\LAB-892.jpg", "vehicles"),
+                };
+
+                Vehicle vehicle8 = new()
+                {
+                    Plate = "PWB-765",
+                    Model = "2015",
+                    Line = "Air Triser",
+                    Mileage = 8000,
+                    Capacity = 7,
+                    DoorNumber = 4,
+                    Maker = "Suzuki",
+                    Color = "Beige",
+                    DayValue = 1200000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\PWB-765.jpg", "vehicles"),
+                };
+
+                Vehicle vehicle9 = new()
+                {
+                    Plate = "IDN-648",
+                    Model = "2008",
+                    Line = "Spark",
+                    Mileage = 5000,
+                    Capacity = 6,
+                    DoorNumber = 4,
+                    Maker = "Chevrolet",
+                    Color = "Rojo",
+                    DayValue = 250000,
+                    Image = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\vehicles\\IDN-648.jpg", "vehicles"),
+                };
+
                 _context.Vehicles.Add(vehicle1);
                 _context.Vehicles.Add(vehicle2);
                 _context.Vehicles.Add(vehicle3);
                 _context.Vehicles.Add(vehicle4);
+                _context.Vehicles.Add(vehicle5);
+                _context.Vehicles.Add(vehicle6);
+                _context.Vehicles.Add(vehicle7);
+                _context.Vehicles.Add(vehicle8);
+                _context.Vehicles.Add(vehicle9);
             }
 
             await _context.SaveChangesAsync();
