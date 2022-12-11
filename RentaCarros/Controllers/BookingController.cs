@@ -189,7 +189,7 @@ namespace RentaCarros.Controllers
             _context.Remove(booking);
             await _context.SaveChangesAsync();
 
-            _flashMessage.Confirmation("La reserva ha sido cancelada", "Operación exitosa:");
+            _flashMessage.Warning("La reserva ha sido cancelada", "Advertencia:");
             return RedirectToAction("Index", "Home");
         }
     }
