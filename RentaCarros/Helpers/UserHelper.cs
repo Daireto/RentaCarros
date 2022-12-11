@@ -81,7 +81,7 @@ namespace RentaCarros.Helpers
                 model.UserName,
                 model.Password,
                 model.RememberMe,
-                false); //TODO: Attempts limit
+                false);
         }
 
         public async Task LoginAsync(User user)

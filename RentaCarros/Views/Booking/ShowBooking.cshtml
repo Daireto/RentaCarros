@@ -1,0 +1,58 @@
+﻿@model RentaCarros.Models.ConfirmBookingViewModel
+
+@{
+    ViewData["Title"] = "Confirmación de la reserva";
+}
+
+<h1>Confirmación de la reserva</h1>
+<flash dismissable="true" />
+
+<h3>Detalles de la reserva</h3>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Número de reserva</th>
+            <th scope="col">Fecha inicial</th>
+            <th scope="col">Fecha final</th>
+            <th scope="col">Hora inicial</th>
+            <th scope="col">Hora final</th>
+            <th scope="col">Lugar de retiro</th>
+            <th scope="col">Vehiculo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">RSV-@Model.Booking.Id</th>
+            <td>@Model.Booking.StartDate</td>
+            <td>@Model.Booking.EndDate</td>
+            <td>@Model.Booking.StartTime</td>
+            <td>@Model.Booking.Endtime</td>
+            <td>@Model.Booking.DeliveryPlace</td>
+            <td>@Model.Booking.Vehicle.Maker @Model.Booking.Vehicle.Line @Model.Booking.Vehicle.Model</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Términos y condiciones</h3>
+<hr />
+<div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a massa vel libero vulputate pharetra sed eget erat. Vestibulum mollis iaculis ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultrices nisi diam, vitae elementum ipsum suscipit ut. Nam volutpat varius augue, mattis lacinia sapien hendrerit sit amet. Pellentesque posuere ultricies nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed sem mauris, elementum at tincidunt a, euismod nec sem. Cras nec mauris in lacus luctus lacinia id faucibus quam.</p>
+    <p>Nam sapien sapien, aliquet interdum eros vel, rutrum vehicula nulla. Pellentesque vel sagittis nisl. Maecenas at lorem nec sem scelerisque ultricies. Nullam gravida dictum urna a ornare. Aliquam faucibus a dui a sollicitudin. Pellentesque eros odio, condimentum non mattis eget, sollicitudin vel ligula. Integer eu imperdiet quam. Vestibulum tristique pulvinar leo. Curabitur facilisis tellus ac tortor consectetur laoreet. Donec dictum venenatis purus, in elementum lorem maximus fermentum. Suspendisse porttitor ultricies neque nec lobortis. Etiam a urna pharetra, lacinia justo sed, ullamcorper quam. Aenean eu enim ultrices, pulvinar est vel, lobortis lorem. Nullam facilisis nibh odio, ut consectetur enim cursus eu.</p>
+    <p>Proin consectetur ex mi, at ullamcorper turpis hendrerit id. Nunc non turpis bibendum, ultricies justo a, bibendum ligula. Quisque posuere vulputate laoreet. Vivamus massa quam, pharetra ut ex id, condimentum varius augue. Nullam tempor mollis feugiat. Vestibulum faucibus consectetur ipsum bibendum tempor. Proin ac neque congue, faucibus magna a, laoreet mauris. Aenean eros odio, scelerisque a ante non, auctor consectetur elit. Duis hendrerit diam eu arcu interdum cursus. Proin eu euismod lorem. Nullam hendrerit, dui a consequat faucibus, quam lorem accumsan felis, sed facilisis risus eros sit amet massa. Phasellus eleifend metus non porttitor rhoncus. Nam faucibus varius mauris. Maecenas ut arcu gravida ligula imperdiet viverra. Vestibulum ultrices justo gravida risus porttitor tempor.</p>
+</div>
+
+<form asp-action="ShowBooking">
+    <input type="hidden" asp-for="BookingId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group mt-2">
+        <div class="form-check">
+            <input asp-for="Confirm" type="checkbox" class="form-check-input" />
+            <label asp-for="Confirm" class="form-check-label"></label>
+        </div>
+        <span asp-validation-for="Confirm" class="text-warning"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Finalizar reserva" class="btn btn-primary" />
+    </div>
+</form>

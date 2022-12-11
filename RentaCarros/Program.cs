@@ -27,7 +27,7 @@ builder.Services.AddIdentity<User, IdentityRole>(cfg => {
 	cfg.Lockout.AllowedForNewUsers = true;
 })
 .AddDefaultTokenProviders()
-.AddEntityFrameworkStores<DataContext>(); //TODO: Change user config
+.AddEntityFrameworkStores<DataContext>();
 
 builder.Services.ConfigureApplicationCookie(options => {
 	options.LoginPath = "/Account/NotAuthorized";
@@ -74,6 +74,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

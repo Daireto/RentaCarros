@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RentaCarros.Data;
+using RentaCarros.Data.Entities;
 using RentaCarros.Enums;
-using System.Xml.Linq;
 
 namespace RentaCarros.Helpers
 {
@@ -42,24 +42,14 @@ namespace RentaCarros.Helpers
             return documentTypes;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetComboVehiclesAsync(int bookingId)
+        public async Task<ICollection<Vehicle>> GetComboVehiclesAsync(int bookingId)
         {
-            List<SelectListItem> list = await _context.Vehicles
-                .Select(v => new SelectListItem
-                {
-                    Text = $"{v.Maker} {v.Model} {v.Plate}",
-                    Value = $"{v.Id}"
-                })
-                .OrderBy(v => v.Text)
+            Booking booking = await _context.Bookings.FindAsync(bookingId);
+
+            return await _context.Vehicles
+                .Include(v => v.Booking)
+                .Where(v => v.Booking.All(b => b.StartDate > booking.EndDate || b.EndDate < booking.StartDate))
                 .ToListAsync();
-
-            list.Insert(0, new SelectListItem
-            {
-                Text = "Seleccione un vehículo",
-                Value = "0"
-            });
-
-            return list;
         }
     }
 }

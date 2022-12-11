@@ -1,0 +1,47 @@
+﻿@model RentaCarros.Models.LinkVehicleViewModel
+
+@{
+    ViewData["Title"] = "Seleccionar vehículo";
+}
+
+<h1>Lista de vehículos disponibles</h1>
+<flash dismissable="true" />
+
+<h4>Por favor seleccione el vehículo que desee reservar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ShowVehicles" id="ShowVehicles">
+            <input type="hidden" asp-for="BookingId" />
+            <input type="hidden" asp-for="VehicleId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @foreach (var vehicle in Model.Vehicles)
+            {
+                <div class="card" style="width: 18rem;">
+                    @*<img class="card-img-top" src="..." alt="Card image cap">*@
+                    <div class="card-body">
+                        <h5 class="card-title">@vehicle.Maker @vehicle.Line @vehicle.Model</h5>
+                        <p class="card-text">@vehicle.Capacity</p>
+                        <p class="card-text">@vehicle.DoorNumber</p>
+                        <p class="card-text">@vehicle.Color</p>
+                        <p class="card-text">@vehicle.Mileage</p>
+                        <p class="card-text">@vehicle.DayValue</p>
+                        <button class="btn btn-primary" id="reservar">Reservar</button>
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $("#reservar").click(function(vehicleId) {
+            $("#VehicleId").val(vehicleId);
+            $("#ShowVehicles").submit();
+        });
+    </script>
+    }

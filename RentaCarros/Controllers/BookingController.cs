@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentaCarros.Models;
 using RentaCarros.Data;
-using Microsoft.EntityFrameworkCore;
 using RentaCarros.Data.Entities;
 using RentaCarros.Helpers;
-using System.Security.Claims;
+using Vereyon.Web;
+using Microsoft.EntityFrameworkCore;
 
 namespace RentaCarros.Controllers
 {
@@ -13,20 +13,23 @@ namespace RentaCarros.Controllers
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
+        private readonly IFlashMessage _flashMessage;
 
-        public BookingController(DataContext context, ICombosHelper combosHelper, IUserHelper userHelper)
+        public BookingController(DataContext context, ICombosHelper combosHelper, IUserHelper userHelper, IFlashMessage flashMessage)
         {
             _context = context;
             _combosHelper = combosHelper;
             _userHelper = userHelper;
+            _flashMessage = flashMessage;
         }
 
-        // TODO: Create missing views
-        // TODO: Implement flash messages
-
-        public IActionResult ShowForm()
+        public IActionResult ShowForm(int? vehicleId)
         {
-            StartBookingViewModel model = new();
+            StartBookingViewModel model = new()
+            {
+                VehicleId = vehicleId ?? null,
+            };
+
             return View(model);
         }
 
@@ -47,6 +50,17 @@ namespace RentaCarros.Controllers
 
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
+
+                if (model.VehicleId.HasValue)
+                {
+                    LinkVehicleViewModel linkModel = new()
+                    {
+                        BookingId = booking.Id,
+                        VehicleId = model.VehicleId.Value
+                    };
+
+                    return await LinkVehicle(linkModel);
+                }
 
                 return RedirectToAction("ShowVehicles", new { bookingId = booking.Id });
             }
@@ -70,38 +84,44 @@ namespace RentaCarros.Controllers
         {
             if (ModelState.IsValid)
             {
-                Booking booking = await _context.Bookings.FindAsync(model.BookingId);
-
-                Vehicle vehicle = await _context.Vehicles.FindAsync(model.VehicleId);
-
-                if (booking == null || vehicle == null)
-                {
-                    return NotFound();
-                }
-
-                booking.Vehicle = vehicle;
-                _context.Update(booking);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("ShowBooking", new { bookingId = booking.Id });
+                return await LinkVehicle(model);
             }
             return View();
         }
 
+        private async Task<IActionResult> LinkVehicle(LinkVehicleViewModel model)
+        {
+            Booking booking = await _context.Bookings.FindAsync(model.BookingId);
+
+            Vehicle vehicle = await _context.Vehicles.FindAsync(model.VehicleId);
+
+            if (booking == null || vehicle == null)
+            {
+                return NotFound();
+            }
+
+            booking.Vehicle = vehicle;
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ShowBooking", new { bookingId = booking.Id });
+        }
+
         public async Task<IActionResult> ShowBooking(int bookingId)
         {
-            Booking booking = await _context.Bookings.FindAsync(bookingId);
+            Booking booking = await _context.Bookings
+                .Include(b => b.Vehicle)
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
 
             if (booking == null)
             {
                 return NotFound();
             }
 
-            // TODO: Generate contract, terms and conditions
-
             ConfirmBookingViewModel model = new()
             {
                 Booking = booking,
+                BookingId = booking.Id,
                 Confirm = false
             };
 
@@ -114,12 +134,16 @@ namespace RentaCarros.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.Confirm)
+                if (!model.Confirm)
                 {
+                    _flashMessage.Warning("Debe aceptar los términos y condiciones para realizar la reserva", "Advertencia:");
+                    model.Booking = await _context.Bookings
+                        .Include(b => b.Vehicle)
+                        .FirstOrDefaultAsync(b => b.Id == model.BookingId);
                     return View(model);
                 }
 
-                Booking booking = await _context.Bookings.FindAsync(model.Booking.Id);
+                Booking booking = await _context.Bookings.FindAsync(model.BookingId);
 
                 if (booking == null)
                 {
@@ -130,6 +154,7 @@ namespace RentaCarros.Controllers
                 _context.Update(booking);
                 await _context.SaveChangesAsync();
 
+                _flashMessage.Confirmation("Reserva realizada correctamente", "Operación exitosa:");
                 return RedirectToAction("Index", "Home");
             }
             return View(model);

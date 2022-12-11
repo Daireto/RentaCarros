@@ -25,11 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Políticas de Privacidad</a>
                         </li>
+                        @if (User.Identity.Name == "lindsey@yopmail.com")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Users">Usuarios</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="navbar-nav">
-
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Booking" asp-action="ShowForm">Reservar un vehículo</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
                             </li>

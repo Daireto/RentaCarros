@@ -6,7 +6,7 @@ namespace RentaCarros.Data.Entities
     {
         public int Id { get; set; }
 
-        [StringLength(6)]
+        [StringLength(7)]
         [Required()]
         public string Plate { get; set; }
 

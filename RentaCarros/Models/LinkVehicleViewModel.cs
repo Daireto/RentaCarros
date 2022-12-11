@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using RentaCarros.Data.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentaCarros.Models
@@ -12,6 +12,6 @@ namespace RentaCarros.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int VehicleId { get; set; }
 
-        public IEnumerable<SelectListItem> Vehicles { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }

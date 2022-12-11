@@ -33,8 +33,6 @@ namespace RentaCarros.Data
 
             await CheckVehiclesAsync();
         }
-        
-        // TODO: Create vehicles
 
         private async Task<User> CheckUsersAsync(
             string document,

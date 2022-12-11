@@ -28,5 +28,7 @@ namespace RentaCarros.Models
         [StringLength(50, MinimumLength = 2)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string DeliveryPlace { get; set; }
+
+        public int? VehicleId { get; set; }
     }
 }

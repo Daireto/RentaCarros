@@ -35,7 +35,7 @@ namespace RentaCarros.Controllers
             _flashMessage = flashMessage;
         }
 
-        public IActionResult NotAuthorized() //TODO: Edit the not authorized view
+        public IActionResult NotAuthorized()
         {
             return View();
         }
