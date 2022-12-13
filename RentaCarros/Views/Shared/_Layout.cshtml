@@ -12,7 +12,12 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">AVE Auto Rentals</a>
+                <a class="navbar-brand text-white d-flex flex-row align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="bg-white p-2 mx-2" style="border-radius: 40%">
+                        <img src="~/images/logo.jpeg" alt="AVE Auto Rentals" width="30" />
+                    </div>
+                    <div>Auto Rentals</div>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
