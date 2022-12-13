@@ -31,7 +31,7 @@
                     <p class="card-text">Color: @vehicle.Color</p>
                     <p class="card-text">Kilometraje: @Milla kms</p>
                     <p class="card-text">Valor por día: $@vlrConv</p>
-                    <a asp-controller="Booking" asp-action="ShowForm" asp-route-vehicleId="@vehicle.Id" class="btn btn-success">Reservar</a>
+                    <button class="btn btn-success" onclick="selectVehicle(@vehicle.Id)">Reservar</button>
                 </div>
             </div>
         </div>
