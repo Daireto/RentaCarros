@@ -17,11 +17,6 @@ namespace RentaCarros.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
             return View(await _context.Vehicles.ToListAsync());
         }
 

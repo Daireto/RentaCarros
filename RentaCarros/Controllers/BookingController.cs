@@ -25,8 +25,15 @@ namespace RentaCarros.Controllers
             _flashMessage = flashMessage;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> ShowForm(int? vehicleId)
         {
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             StartBookingViewModel model = new()
             {
                 EndDate = new DateTime(0001, 01, 01),
